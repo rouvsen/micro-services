@@ -1,5 +1,6 @@
 package com.rouvsen.school.service;
 
+import com.rouvsen.school.client.StudentClient;
 import com.rouvsen.school.entity.FullSchoolResponse;
 import com.rouvsen.school.entity.School;
 import com.rouvsen.school.repository.SchoolRepository;
@@ -8,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class SchoolService {
 
     private final SchoolRepository schoolRepository;
+    private final StudentClient studentClient;
 
     public void saveSchool(School school) {
         schoolRepository.save(school);
@@ -25,6 +26,20 @@ public class SchoolService {
     }
 
     public FullSchoolResponse findSchoolWithStudents(Long schoolId) {
-        return null;
+        var school = schoolRepository.findById(schoolId)
+                .orElse(
+                        School.builder()
+                                .name("NOT_FOUND")
+                                .email("NOT_FOUND")
+                                .build()
+                );
+        //added open-feign dependency, and implemented - StudentClient Interface
+        var students = studentClient.findAllStudentsBySchoolId(schoolId);//
+        // find all students from the student microservice
+        return FullSchoolResponse.builder()
+                .name(school.getName())
+                .email(school.getEmail())
+                .students(students)
+                .build();
     }
 }
