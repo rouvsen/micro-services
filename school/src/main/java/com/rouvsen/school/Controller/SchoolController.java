@@ -19,18 +19,18 @@ public class SchoolController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createSchool(@RequestBody com.rouvsen.school.entity.School school) {
+    public void createSchool(@RequestBody School school) {
         schoolService.saveSchool(school);
     }
 
     @GetMapping
-    public ResponseEntity<List<com.rouvsen.school.entity.School>> getAllSchools() {
+    public ResponseEntity<List<School>> getAllSchools() {
         return ResponseEntity.ok(schoolService.findAllSchools());
     }
 
     @GetMapping("/with-students/{school-id}")
     public ResponseEntity<FullSchoolResponse> getAllSchoolsWithStudents(
             @PathVariable("school-id") Long schoolId) {
-        return null;
+        return ResponseEntity.ok(schoolService.findSchoolWithStudents(schoolId));
     }
 }
