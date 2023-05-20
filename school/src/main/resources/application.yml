@@ -1,30 +1,5 @@
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-server:
-  port: 8070
-
 spring:
   application:
     name: schools
   config:
-    import: optional:configserver:http:localhost:8888
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/schools
-    username: postgres
-    password: 123
-  jpa:
-    hibernate:
-      ddl_auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-#our student end-point (student microservice)
-application:
-  config:
-    students-url: http://localhost:8090/api/v1/students
+    import: optional:configserver:http://localhost:8888
