@@ -26,3 +26,7 @@ spring:
 application:
   config:
     students-url: http://localhost:8222/api/v1/students
+management:
+  tracing:
+    sampling:
+      probability: 1.0
